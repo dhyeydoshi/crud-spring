@@ -1,6 +1,5 @@
 package com.crud.service;
 
-
 import com.crud.model.UserModel;
 import com.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,32 +10,43 @@ import java.util.*;
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
-
-    public UserModel addUser(UserModel userModel) {
-        return userRepository.save(userModel);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-
 
     public List<UserModel> getAllUsers() {
-        List<UserModel> users = new ArrayList<>();
-        userRepository.findAll().forEach(users::add);
-        return users;
+        return userRepository.findAll();
     }
 
-
-    public Optional<UserModel> getUserById(int id) {
-        return userRepository.findById(id);
+    public Optional<UserModel> getUserByAccountNumber(String accountNumber) {
+        return userRepository.findById(accountNumber);
     }
 
-
-    public UserModel updateUser(UserModel userModel) {
-        return userRepository.save(userModel);
+    public List<UserModel> getUsersByLastName(String lastName) {
+        return userRepository.findByLastNameContaining(lastName);
     }
 
-    public void deleteUser(int id) {
-        userRepository.deleteById(id);
+    public List<UserModel> getUsersByFirstName(String firstName) {
+        return userRepository.findByFirstNameContaining(firstName);
     }
+
+    public UserModel createUser(UserModel user) {
+        return userRepository.save(user);
+    }
+
+    public Optional<UserModel> updateUser(String accountNumber, UserModel updatedUser) {
+        return userRepository.findById(accountNumber)
+                .map(existingUser -> {
+                    existingUser.setFirstName(updatedUser.getFirstName());
+                    existingUser.setLastName(updatedUser.getLastName());
+                    existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+                    existingUser.setEmail(updatedUser.getEmail());
+                    return userRepository.save(existingUser);
+                });
+    }
+
 }
 
