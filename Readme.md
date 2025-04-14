@@ -1,6 +1,6 @@
-# Spring Boot CRUD Application
+# Spring Boot Application
 
-A simple CRUD (Create, Read, Update, Delete) application built with Spring Boot and PostgreSQL. This application demonstrates basic CRUD operations on a `User` entity.
+A simple Create, Read application built with Spring Boot and PostgreSQL. This application demonstrates basic operations on `User` and `Address` entity.
 
 ## Prerequisites
 
@@ -50,11 +50,6 @@ spring.datasource.password=your_postgres_password
 curl -X POST http://localhost:8080/users -H "Content-Type: application/json" -d "{\"name\": \"Alice\", \"email\": \"alice@example.com\"}"
 ```
 
-- To delete a user:
-
-```bash
-curl -X DELETE http://localhost:8080/users/{id}
-```
 - To view all users:
 
 ```bash
